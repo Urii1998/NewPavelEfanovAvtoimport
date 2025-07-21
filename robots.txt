@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Sitemap: https://urii1998.github.io/PavelEfanovAvtoimport/sitemap.xml
