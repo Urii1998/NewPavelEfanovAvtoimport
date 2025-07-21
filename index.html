@@ -37,7 +37,7 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><!DOCTYPE html>
+        </script><![CDATA[<!DOCTYPE html>
 <html lang="ru" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -126,6 +126,17 @@
     .carousel.hidden {
       opacity: 0;
     }
+    .visit-counter {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 100;
+    }
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
@@ -192,7 +203,7 @@
       </div>
       <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="400">
         <h3 class="text-xl font-semibold">4. Оплата</h3>
-        <p class="mt-2">Оплата в 3 этапа: наличными или безналичным переводом.</p>
+        <p class="mt-2">Оплата в 3 этапа: по наличному или безналичному переводу.</p>
       </div>
       <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="500">
         <h3 class="text-xl font-semibold">5. Осмотр</h3>
@@ -231,7 +242,7 @@
       </div>
       <div class="p-6" data-aos="fade-up" data-aos-delay="500">
         <h3 class="text-xl font-semibold">Договор</h3>
-        <p class="mt-2">Все условия прописаны в договоре.</p>
+        <p class="mt-2">Все условия официально прописаны в договоре.</p>
       </div>
     </div>
   </section>
@@ -259,22 +270,22 @@
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Доставленные автомобили</h2>
     <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="100" onclick="openModal('Toyota Camry', 'Япония', '2.5L, 2020, 30,000 км', '1,800,000 ₽', 'Москва', 'https://images.unsplash.com/photo-1618843473807-b3f3b498ee0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1618843473807-b3f3b498ee0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Toyota Camry из Японии, доставленная в Москву" class="w-full h-64 object-cover rounded-lg">
+      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="100" onclick="openModal('Toyota Camry', 'Япония', '2.5L, 2020, 30,000 км', '1,800,000 ₽', 'Москва', 'https://auto.sibnet.ru/upload/car_sale_l/1652106190.7516.jpg')">
+        <img loading="lazy" src="https://auto.sibnet.ru/upload/car_sale_l/1652106190.7516.jpg" alt="Toyota Camry из Японии, доставленная в Москву" class="w-full h-64 object-cover rounded-lg">
         <div class="absolute bottom-0 bg-black bg-opacity-50 text-white p-4 w-full">
           <p>Toyota Camry, Япония</p>
           <p>1,800,000 ₽, Москва</p>
         </div>
       </div>
-      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="200" onclick="openModal('BMW X5', 'Германия', '3.0L, 2019, 40,000 км', '3,500,000 ₽', 'Санкт-Петербург', 'https://images.unsplash.com/photo-1619134317440-c0a825a1c73b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1619134317440-c0a825a1c73b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BMW X5 из Германии, доставленная в Санкт-Петербург" class="w-full h-64 object-cover rounded-lg">
+      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="200" onclick="openModal('BMW X5', 'Германия', '3.0L, 2019, 40,000 км', '3,500,000 ₽', 'Санкт-Петербург', 'https://avatars.mds.yandex.net/get-autoru-vos/5234661/bd6dfca75d19bc83f5836047774cb5e9/456x342')">
+        <img loading="lazy" src="https://avatars.mds.yandex.net/get-autoru-vos/5234661/bd6dfca75d19bc83f5836047774cb5e9/456x342" alt="BMW X5 из Германии, доставленная в Санкт-Петербург" class="w-full h-64 object-cover rounded-lg">
         <div class="absolute bottom-0 bg-black bg-opacity-50 text-white p-4 w-full">
           <p>BMW X5, Германия</p>
           <p>3,500,000 ₽, Санкт-Петербург</p>
         </div>
       </div>
-      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="300" onclick="openModal('Hyundai Tucson', 'Корея', '2.0L, 2021, 20,000 км', '2,200,000 ₽', 'Екатеринбург', 'https://images.unsplash.com/photo-1617498243609-77b4c6d91ca7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1617498243609-77b4c6d91ca7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hyundai Tucson из Кореи, доставленная в Екатеринбург" class="w-full h-64 object-cover rounded-lg">
+      <div class="relative cursor-pointer" data-aos="fade-up" data-aos-delay="300" onclick="openModal('Hyundai Tucson', 'Корея', '2.0L, 2021, 20,000 км', '2,200,000 ₽', 'Екатеринбург', 'https://avatars.mds.yandex.net/get-autoru-vos/2089331/7db611968eeea7a1031fd58b2c36ed53/456x342')">
+        <img loading="lazy" src="https://avatars.mds.yandex.net/get-autoru-vos/2089331/7db611968eeea7a1031fd58b2c36ed53/456x342" alt="Hyundai Tucson из Кореи, доставленная в Екатеринбург" class="w-full h-64 object-cover rounded-lg">
         <div class="absolute bottom-0 bg-black bg-opacity-50 text-white p-4 w-full">
           <p>Hyundai Tucson, Корея</p>
           <p>2,200,000 ₽, Екатеринбург</p>
@@ -362,6 +373,11 @@
       <button type="button" id="footer-theme-toggle" class="ripple bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-700 transition">Светлая/Тёмная тема</button>
     </div>
   </footer>
+
+  <!-- Visit Counter -->
+  <div id="visit-counter" class="visit-counter">
+    Посетителей: <span id="visit-count">0</span>
+  </div>
 
   <!-- Modal -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
@@ -496,6 +512,19 @@
       if (year > 2020) baseCost += (year - 2020) * 100000;
       document.getElementById('calc-result').textContent = `Ориентировочная стоимость: ${baseCost.toLocaleString()} ₽`;
     });
+
+    // Visit Counter
+    function updateVisitCount() {
+      let count = localStorage.getItem('visitCount');
+      if (count === null) {
+        count = 1;
+      } else {
+        count = parseInt(count) + 1;
+      }
+      localStorage.setItem('visitCount', count);
+      document.getElementById('visit-count').textContent = count;
+    }
+    window.addEventListener('load', updateVisitCount);
   </script>
 </body>
-</html>
+</html>]]>
