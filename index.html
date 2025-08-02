@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="sjPJwCD3gF-Tg69EymxW7TanX_g9EB7Iwrpj4ESDNuQ" />
   <meta name="description" content="Прозрачный автоподбор под ключ. Доставка, страховка, проверка, юридическое сопровождение и все документы. Без посредников.">
   <meta name="keywords" content="автоподбор, доставка авто, автомобили из-за границы, Япония, Корея, Германия">
   <meta property="og:title" content="Автоподбор из Японии, Кореи, Германии | Павел">
@@ -77,15 +78,17 @@
     .border-red-500 {
       border-color: #ef4444 !important;
     }
-    .carousel {
+    .video-container {
       position: absolute;
       inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: opacity 1s ease-in-out;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
-    .carousel.hidden {
-      opacity: 0;
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .visit-counter {
       position: fixed;
@@ -112,16 +115,10 @@
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
     </svg>
   </div>
-
-  <!-- Hero Section with Carousel -->
+  <!-- Hero Section with Video -->
   <section class="relative h-screen overflow-hidden">
-    <div id="carousel" class="absolute inset-0">
-      <div class="carousel" style="background-image: url('/images/photo_2025-07-21_17-55-48.jpg'); width: 100%; height: 100%;"></div>
-      <div class="carousel hidden" style="background-image: url('/images/photo_2025-06-16_15-08-38.jpg'); width: 100%; height: 100%;"></div>
-      <div class="carousel hidden" style="background-image: url('/images/photo_2025-06-27_14-09-34.jpg'); width: 100%; height: 100%;"></div>
-      <div class="carousel hidden" style="background-image: url('/images/photo_2025-07-01_16-27-12.jpg'); width: 100%; height: 100%;"></div>
-      <div class="carousel hidden" style="background-image: url('/images/photo_2025-07-03_13-56-21.jpg'); width: 100%; height: 100%;"></div>
-      <div class="carousel hidden" style="background-image: url('/images/photo_2025-07-08_14-45-00.jpg'); width: 100%; height: 100%;"></div>
+    <div class="video-container">
+      <iframe src="https://vkvideo.ru/video_ext.php?oid=-220250373&id=456239031&hash=7fd56202b11e7ba4" frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>
     </div>
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4">
@@ -137,7 +134,6 @@
       </button>
     </div>
   </section>
-
   <!-- About Section -->
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Обо мне</h2>
@@ -145,7 +141,6 @@
       Меня зовут Павел Ефанов, я специалист по автоподбору автомобилей из-за границы. Работаю без посредников, напрямую с проверенными автосалонами и логистическими компаниями. Моя цель — сделать процесс покупки авто из Японии, Кореи, Китая или Германии прозрачным, безопасным и удобным. Каждый этап сопровождается договором, страховкой и фото/видеоотчётами. Никаких "серых схем" — только честная работа и полная ответственность за результат.
     </p>
   </section>
-
   <!-- Process Section -->
   <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Этапы работы</h2>
@@ -180,7 +175,6 @@
       </div>
     </div>
   </section>
-
   <!-- Advantages Section -->
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Почему выбирают меня</h2>
@@ -207,7 +201,6 @@
       </div>
     </div>
   </section>
-
   <!-- Reviews Section -->
   <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Отзывы клиентов</h2>
@@ -226,7 +219,6 @@
       </div>
     </div>
   </section>
-
   <!-- Gallery Section -->
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Доставленные автомобили</h2>
@@ -254,7 +246,6 @@
       </div>
     </div>
   </section>
-
   <!-- Calculator Section -->
   <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Калькулятор доставки</h2>
@@ -291,7 +282,6 @@
       </div>
     </div>
   </section>
-
   <!-- FAQ Section -->
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Частые вопросы</h2>
@@ -314,7 +304,6 @@
       </div>
     </div>
   </section>
-
   <!-- Contact Section -->
   <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Свяжитесь со мной</h2>
@@ -325,7 +314,6 @@
       <a href="tel:+79996328277" class="ripple bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition">Позвонить</a>
     </div>
   </section>
-
   <!-- Footer -->
   <footer class="py-8 px-4 bg-gray-800 text-white text-center">
     <p>© Павел Ефанов, 2025. Партнёр логистической компании. Работаю по договору. Вся ответственность застрахована.</p>
@@ -334,12 +322,10 @@
       <button type="button" id="footer-theme-toggle" class="ripple bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-700 transition">Светлая/Тёмная тема</button>
     </div>
   </footer>
-
   <!-- Visit Counter -->
   <div id="visit-counter" class="visit-counter">
     Посетителей: <span id="visit-count">0</span>
   </div>
-
   <!-- Modal -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white dark:bg-gray-700 p-6 rounded-lg max-w-lg w-full">
@@ -351,41 +337,18 @@
       <button type="button" onclick="closeModal()" class="mt-4 w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition">Закрыть</button>
     </div>
   </div>
-
   <script>
     // FOUC Prevention
     (function() {
       const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.classList.add(theme);
     })();
-
     // Initialize AOS
     AOS.init({ duration: 800, once: true });
-
     // Loader
     window.addEventListener('load', () => {
       document.getElementById('loader').classList.add('hidden');
     });
-
-    // Carousel
-    document.addEventListener('DOMContentLoaded', () => {
-      const carouselImages = document.querySelectorAll('#carousel .carousel');
-      let currentImage = 0;
-
-      function showNextImage() {
-        carouselImages[currentImage].classList.add('hidden');
-        currentImage = (currentImage + 1) % carouselImages.length;
-        carouselImages[currentImage].classList.remove('hidden');
-      }
-
-      // Показываем первый слайд сразу
-      carouselImages.forEach((img, index) => {
-        if (index !== 0) img.classList.add('hidden');
-      });
-
-      setInterval(showNextImage, 5000);
-    });
-
     // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const footerThemeToggle = document.getElementById('footer-theme-toggle');
@@ -404,7 +367,6 @@
     setTheme(savedTheme);
     themeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
     footerThemeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
-
     // Ripple Effect
     document.querySelectorAll('.ripple').forEach(button => {
       button.addEventListener('click', function(e) {
@@ -412,7 +374,6 @@
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
-
         const ripple = document.createElement('span');
         ripple.style.width = ripple.style.height = `${size}px`;
         ripple.style.left = `${x}px`;
@@ -424,11 +385,9 @@
         ripple.style.animation = 'ripple 0.6s linear';
         ripple.style.pointerEvents = 'none';
         this.appendChild(ripple);
-
         setTimeout(() => ripple.remove(), 600);
       });
     });
-
     // Modal
     function openModal(title, country, details, price, city, img) {
       document.getElementById('modal-title').textContent = `${title}, ${country}`;
@@ -442,7 +401,6 @@
     function closeModal() {
       document.getElementById('modal').classList.add('hidden');
     }
-
     // Calculator
     document.getElementById('calculate').addEventListener('click', () => {
       const country = document.getElementById('country').value;
@@ -451,7 +409,6 @@
       const yearInput = document.getElementById('year');
       let engine = engineInput.value.replace(',', '.');
       let year = parseInt(yearInput.value) || 0;
-
       // Validation
       let isValid = true;
       if (!engine) {
@@ -466,12 +423,10 @@
       } else {
         yearInput.classList.remove('border-red-500');
       }
-
       if (!isValid) {
         document.getElementById('calc-result').textContent = 'Пожалуйста, заполните все поля корректно';
         return;
       }
-
       engine = parseFloat(engine);
       let baseCost = 1000000;
       if (country === 'Япония') baseCost += 200000;
@@ -482,7 +437,6 @@
       if (year > 2020) baseCost += (year - 2020) * 100000;
       document.getElementById('calc-result').textContent = `Ориентировочная стоимость: ${baseCost.toLocaleString()} ₽`;
     });
-
     // Visit Counter
     function updateVisitCount() {
       let count = localStorage.getItem('visitCount');
