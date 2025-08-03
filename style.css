@@ -46,16 +46,30 @@ body {
   object-fit: cover;
 }
 
+@media (max-width: 640px) {
+  .video-container video {
+    height: 50vh; /* Ограничиваем высоту на мобильных */
+  }
+}
+
 .visit-counter {
   position: fixed;
   bottom: 10px;
   right: 10px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 12px;
   z-index: 100;
+}
+
+@media (min-width: 641px) {
+  .visit-counter {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
 }
 
 .accordion-button {
@@ -81,11 +95,20 @@ body {
 }
 
 #carousel img {
-  width: 300px;
-  height: 200px;
+  width: 200px;
+  height: 150px;
   object-fit: cover;
-  margin-right: 10px;
-  border-radius: 8px;
+  margin-right: 5px;
+  border-radius: 6px;
+}
+
+@media (min-width: 641px) {
+  #carousel img {
+    width: 300px;
+    height: 200px;
+    margin-right: 10px;
+    border-radius: 8px;
+  }
 }
 
 @keyframes scroll {

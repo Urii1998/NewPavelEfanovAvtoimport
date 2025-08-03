@@ -53,11 +53,11 @@ document.querySelectorAll('.ripple').forEach(button => {
     ripple.style.left = `${x}px`;
     ripple.style.top = `${y}px`;
     ripple.style.position = 'absolute';
-    ripple.style.borderRadius = '50%';
+    ripple.style.border-radius = '50%';
     ripple.style.background = 'rgba(255, 255, 255, 0.3)';
     ripple.style.transform = 'scale(0)';
     ripple.style.animation = 'ripple 0.6s linear';
-    ripple.style.pointerEvents = 'none';
+    ripple.style.pointer-events = 'none';
     this.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
   });
