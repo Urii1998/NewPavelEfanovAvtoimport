@@ -49,7 +49,7 @@
   <section class="relative h-screen overflow-hidden">
     <div class="video-container">
       <video muted loop playsinline>
-        <!-- Убедитесь, что video-auto-crane.mp4 находится в папке videos. Пример: <source src="videos/video-auto-crane.mp4" type="video/mp4">. Если загружено на GitHub, используйте полный URL, например: https://urii1998.github.io/NewPavelEfanovAvtoimport/videos/video-auto-crane.mp4 -->
+        <!-- Проверьте, что video-auto-crane.mp4 загружен в папку videos. Если нет, загрузите файл (https://wdfiles.ru/2a9ax~i?85d5911c0f6b924e9e82136f3266ddb4, переименуйте в video-auto-crane.mp4) и используйте: <source src="videos/video-auto-crane.mp4" type="video/mp4"> -->
         <source src="videos/video-auto-crane.mp4" type="video/mp4">
         Ваш браузер не поддерживает видео. Загрузите файл и проверьте путь.
       </video>
@@ -87,7 +87,6 @@
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Обо мне</h2>
     <div class="mt-6 flex flex-col items-center">
-      <!-- Загрузите фото в папку images и замените src на относительный путь, например: images/pavel-efanov-photo.jpg -->
       <img src="images/pavel-efanov-photo.jpg" alt="Павел Ефанов" class="w-32 h-32 rounded-full shadow-lg" data-aos="fade-in">
       <p class="mt-6 text-lg text-center max-w-3xl mx-auto">
         Меня зовут Павел Ефанов, я специалист по автоподбору автомобилей из-за границы. Работаю без посредников, напрямую с проверенными автосалонами и логистическими компаниями. Моя цель — сделать процесс покупки авто из Японии, Кореи, Китая или Германии прозрачным, безопасным и удобным. Каждый этап сопровождается договором, страховкой и фото/видеоотчётами. Никаких "серых схем" — только честная работа и полная ответственность за результат. Специализируюсь на автоподбор в Ростов-на-Дону, Краснодаре, Ставрополе и Сочи.
@@ -273,18 +272,6 @@
       </div>
     </div>
   </section>
-  <!-- Partners Section (Commented) -->
-  <!--
-  <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
-    <h2 class="text-3xl md:text-4xl font-bold text-center">Мои партнёры</h2>
-    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-      <img src="images/partner-1.jpg" alt="Партнёр 1" class="h-16 object-contain" data-aos="fade-up" data-aos-delay="100">
-      <img src="images/partner-2.jpg" alt="Партнёр 2" class="h-16 object-contain" data-aos="fade-up" data-aos-delay="200">
-      <img src="images/partner-3.jpg" alt="Партнёр 3" class="h-16 object-contain" data-aos="fade-up" data-aos-delay="300">
-      <img src="images/partner-4.jpg" alt="Партнёр 4" class="h-16 object-contain" data-aos="fade-up" data-aos-delay="400">
-    </div>
-  </section>
-  -->
   <!-- FAQ Section (Accordion) -->
   <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl md:text-4xl font-bold text-center">Частые вопросы</h2>
@@ -411,6 +398,8 @@
       <button type="button" onclick="closeModal()" class="mt-4 w-full bg-blue-600 text-white p-3 rounded-2xl shadow-lg hover:bg-blue-700 transition">Закрыть</button>
     </div>
   </div>
+  <!-- Подключение AOS JavaScript -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
