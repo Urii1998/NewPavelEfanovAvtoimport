@@ -1,6 +1,6 @@
 // FOUC Prevention и установка тёмной темы по умолчанию
 (function() {
-  const theme = 'dark'; // Устанавливаем тёмную тему по умолчанию
+  const theme = 'dark';
   document.documentElement.classList.add(theme);
   localStorage.setItem('theme', theme);
   const themeIcon = document.getElementById('theme-icon');
@@ -13,14 +13,14 @@ AOS.init({ duration: 800, once: true });
 // Loader
 window.addEventListener('load', () => {
   document.getElementById('loader').classList.add('hidden');
-  // Автоматический запуск видео
   const video = document.getElementById('background-video');
   if (video) {
     video.play().catch(error => {
       console.log('Автозапуск видео заблокирован: ', error);
-      // Попытка принудительного запуска через задержку
       setTimeout(() => {
-        if (video.paused) video.play(); // Корректный вызов без присваивания
+        if (video.paused) {
+          video.play().catch(error => console.log('Повторная ошибка: ', error));
+        }
       }, 500);
     });
   }
@@ -55,11 +55,11 @@ document.querySelectorAll('.ripple').forEach(button => {
     ripple.style.left = `${x}px`;
     ripple.style.top = `${y}px`;
     ripple.style.position = 'absolute';
-    ripple.style.border-radius = '50%';
+    ripple.style.borderRadius = '50%';
     ripple.style.background = 'rgba(255, 255, 255, 0.3)';
     ripple.style.transform = 'scale(0)';
     ripple.style.animation = 'ripple 0.6s linear';
-    ripple.style.pointer-events = 'none';
+    ripple.style.pointerEvents = 'none';
     this.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
   });
@@ -79,7 +79,7 @@ function closeModal() {
   document.getElementById('modal').classList.add('hidden');
 }
 
-// Gallery Filters (оставляем для совместимости, хотя карусель заменяет)
+// Gallery Filters
 document.getElementById('country-filter')?.addEventListener('change', filterCars);
 document.getElementById('brand-filter')?.addEventListener('change', filterCars);
 document.getElementById('modal-country-filter')?.addEventListener('change', filterCars);
@@ -91,151 +91,4 @@ function filterCars() {
   cars.forEach(car => {
     const carCountry = car.getAttribute('data-country');
     const carBrand = car.getAttribute('data-brand');
-    if ((country === 'all' || country === carCountry) && (brand === 'all' || brand === carBrand)) {
-      car.style.display = 'block';
-    } else {
-      car.style.display = 'none';
-    }
-  });
-}
-
-// Calculator
-document.getElementById('calculate').addEventListener('click', () => {
-  const country = document.getElementById('country').value;
-  const carType = document.getElementById('car-type').value;
-  const engineInput = document.getElementById('engine');
-  const yearInput = document.getElementById('year');
-  let engine = engineInput.value.replace(',', '.');
-  let year = parseInt(yearInput.value) || 0;
-  let isValid = true;
-  if (!engine) {
-    engineInput.classList.add('border-red-500');
-    isValid = false;
-  } else {
-    engineInput.classList.remove('border-red-500');
-  }
-  if (!year || year < 2000 || year > 2025) {
-    yearInput.classList.add('border-red-500');
-    isValid = false;
-  } else {
-    yearInput.classList.remove('border-red-500');
-  }
-  if (!isValid) {
-    document.getElementById('calc-result').textContent = 'Пожалуйста, заполните все поля корректно';
-    return;
-  }
-  engine = parseFloat(engine);
-  let baseCost = 1000000;
-  if (country === 'Япония') baseCost += 200000;
-  if (country === 'Германия') baseCost += 500000;
-  if (carType === 'Электрокар') baseCost += 300000;
-  if (carType === 'Гибрид') baseCost += 150000;
-  baseCost += engine * 200000;
-  if (year > 2020) baseCost += (year - 2020) * 100000;
-  document.getElementById('calc-result').textContent = `Ориентировочная стоимость: ${baseCost.toLocaleString()} ₽`;
-  AOS.refresh();
-});
-
-// Accordion
-document.querySelectorAll('.accordion-button').forEach(button => {
-  button.addEventListener('click', () => {
-    const content = button.nextElementSibling;
-    const isOpen = content.classList.contains('open');
-    document.querySelectorAll('.accordion-content').forEach(c => {
-      c.classList.remove('open');
-      c.previousElementSibling.querySelector('svg').style.transform = 'rotate(0deg)';
-    });
-    if (!isOpen) {
-      content.classList.add('open');
-      button.querySelector('svg').style.transform = 'rotate(180deg)';
-    }
-  });
-});
-
-// Question Form
-document.getElementById('submit-question').addEventListener('click', () => {
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const question = document.getElementById('question').value;
-  let isValid = true;
-  if (!name) {
-    document.getElementById('name').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('name').classList.remove('border-red-500');
-  }
-  if (!phone || !/^\+?\d{10,12}$/.test(phone.replace(/\D/g, ''))) {
-    document.getElementById('phone').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('phone').classList.remove('border-red-500');
-  }
-  if (!question) {
-    document.getElementById('question').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('question').classList.remove('border-red-500');
-  }
-  if (isValid) {
-    const mailtoLink = `mailto:efanov_pavel21@mail.ru?subject=Вопрос от ${name}&body=Имя: ${name}%0D%0AТелефон: ${phone}%0D%0AВопрос: ${question}`;
-    window.location.href = mailtoLink;
-    document.getElementById('form-result').textContent = 'Ваш вопрос отправлен! Я свяжусь с вами в ближайшее время.';
-    document.getElementById('name').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('question').value = '';
-  } else {
-    document.getElementById('form-result').textContent = 'Пожалуйста, заполните все поля корректно';
-  }
-});
-
-// Visit Counter
-function updateVisitCount() {
-  document.getElementById('visit-count').textContent = 'Глобальный счётчик в разработке'; // Плейсхолдер
-  if (window.gtag) gtag('event', 'page_view', { 'send_to': 'UA-XXXXXX-X' }); // Отправка в GA
-}window.addEventListener('load', updateVisitCount);
-
-// Карусель с локальными изображениями из папки images
-document.addEventListener('DOMContentLoaded', () => {
-  const carousel = document.getElementById('carousel');
-  // Список всех изображений в папке images на основе вашего содержимого
-  const imageFiles = [
-    'photo_2025-06-27_14-09-34.jpg',
-    'photo_2025-07-01_16-27-12.jpg',
-    'photo_2025-07-03_13-56-21.jpg',
-    'photo_2025-07-08_14-45-00.jpg',
-    'photo_2025-07-21_17-55-48.jpg',
-    'photo_2025-08-04_00-23-56.jpg',
-    'photo_2025-08-04_00-24-09.jpg',
-    'photo_2025-08-04_00-24-15.jpg',
-    'photo_2025-08-04_00-24-19.jpg',
-    'photo_2025-08-04_00-24-25.jpg',
-    'photo_2025-08-04_00-24-30.jpg',
-    'photo_2025-08-04_00-24-33.jpg',
-    'photo_2025-08-04_00-24-37.jpg',
-    'photo_2025-08-04_00-24-40.jpg'
-  ].filter(img => img !== 'photo_2025-06-21_17-14-02.jpg'); // Исключаем фото Павла
-
-  // Заполняем карусель
-  imageFiles.forEach(img => {
-    const imgElement = document.createElement('img');
-    imgElement.src = `images/${img}`;
-    imgElement.alt = 'Фото выполненного заказа';
-    carousel.appendChild(imgElement);
-  });
-
-  // Клонируем для бесконечной прокрутки
-  const clone = carousel.cloneNode(true);
-  clone.classList.add('clone');
-  carousel.parentNode.appendChild(clone);
-
-  // Автоматическая прокрутка
-  let scrollPosition = 0;
-  setInterval(() => {
-    scrollPosition -= 1;
-    carousel.style.transform = `translateX(${scrollPosition}px)`;
-    clone.style.transform = `translateX(${scrollPosition}px)`;
-    if (scrollPosition <= -carousel.scrollWidth / 2) {
-      scrollPosition = 0;
-    }
-  }, 20); // Скорость прокрутки
-});
+    if ((
