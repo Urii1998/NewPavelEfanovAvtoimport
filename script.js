@@ -190,15 +190,25 @@ function updateVisitCount() {
 }
 window.addEventListener('load', updateVisitCount);
 
-// Карусель с локальными изображениями
+// Карусель с локальными изображениями из папки images
 document.addEventListener('DOMContentLoaded', () => {
   const carousel = document.getElementById('carousel');
-  // Список всех изображений в папке images (нужно заменить на реальные имена файлов)
+  // Список всех изображений в папке images на основе вашего содержимого
   const imageFiles = [
-    'toyota-camry.jpg',
-    'bmw-x5.jpg',
-    'hyundai-tucson.jpg'
-    // Добавьте другие имена файлов из папки images, если они есть
+    'photo_2025-06-27_14-09-34.jpg',
+    'photo_2025-07-01_16-27-12.jpg',
+    'photo_2025-07-03_13-56-21.jpg',
+    'photo_2025-07-08_14-45-00.jpg',
+    'photo_2025-07-21_17-55-48.jpg',
+    'photo_2025-08-04_00-23-56.jpg',
+    'photo_2025-08-04_00-24-09.jpg',
+    'photo_2025-08-04_00-24-15.jpg',
+    'photo_2025-08-04_00-24-19.jpg',
+    'photo_2025-08-04_00-24-25.jpg',
+    'photo_2025-08-04_00-24-30.jpg',
+    'photo_2025-08-04_00-24-33.jpg',
+    'photo_2025-08-04_00-24-37.jpg',
+    'photo_2025-08-04_00-24-40.jpg'
   ].filter(img => img !== 'photo_2025-06-21_17-14-02.jpg'); // Исключаем фото Павла
 
   // Заполняем карусель
