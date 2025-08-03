@@ -45,10 +45,14 @@
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
     </svg>
   </div>
-  <!-- Hero Section with YouTube Video -->
+  <!-- Hero Section with Video -->
   <section class="relative h-screen overflow-hidden">
     <div class="video-container">
-      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/2xpQAEBGDeg" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <video id="background-video" muted loop playsinline>
+        <!-- Убедитесь, что video-auto-crane.mp4 загружен в папку videos, обрезан до 10 секунд и без звука -->
+        <source src="videos/video-auto-crane.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео. Загрузите обрезанную версию без звука и проверьте путь.
+      </video>
     </div>
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4">

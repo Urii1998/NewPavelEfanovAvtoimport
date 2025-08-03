@@ -13,6 +13,15 @@ AOS.init({ duration: 800, once: true });
 // Loader
 window.addEventListener('load', () => {
   document.getElementById('loader').classList.add('hidden');
+  // Автоматический запуск видео
+  const video = document.getElementById('background-video');
+  if (video) {
+    video.play().catch(error => {
+      console.log('Автозапуск видео заблокирован: ', error);
+      // Попытка принудительного запуска через задержку (может не сработать из-за политики)
+      setTimeout(() => video.play(), 500);
+    });
+  }
 });
 
 // Theme Toggle
