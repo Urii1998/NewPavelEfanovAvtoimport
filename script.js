@@ -190,16 +190,9 @@ document.getElementById('submit-question').addEventListener('click', () => {
 
 // Visit Counter
 function updateVisitCount() {
-  let count = localStorage.getItem('visitCount');
-  if (count === null) {
-    count = 1;
-  } else {
-    count = parseInt(count) + 1;
-  }
-  localStorage.setItem('visitCount', count);
-  document.getElementById('visit-count').textContent = count;
-}
-window.addEventListener('load', updateVisitCount);
+  document.getElementById('visit-count').textContent = 'Глобальный счётчик в разработке'; // Плейсхолдер
+  if (window.gtag) gtag('event', 'page_view', { 'send_to': 'UA-XXXXXX-X' }); // Отправка в GA
+}window.addEventListener('load', updateVisitCount);
 
 // Карусель с локальными изображениями из папки images
 document.addEventListener('DOMContentLoaded', () => {
