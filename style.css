@@ -72,3 +72,31 @@ body {
 .accordion-content.open {
   max-height: 200px;
 }
+
+/* Карусель */
+#carousel {
+  display: flex;
+  width: 100%;
+  animation: scroll 20s linear infinite;
+}
+
+#carousel img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Клонирование для бесконечной прокрутки */
+#carousel.clone {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+}
