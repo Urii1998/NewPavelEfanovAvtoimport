@@ -1,190 +1,352 @@
-// FOUC Prevention
-(function() {
-  const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  document.documentElement.classList.add(theme);
-})();
-
-// Initialize AOS
-AOS.init({ duration: 800, once: true });
-
-// Loader
-window.addEventListener('load', () => {
-  document.getElementById('loader').classList.add('hidden');
-});
-
-// Theme Toggle
-const themeToggle = document.getElementById('theme-toggle');
-const footerThemeToggle = document.getElementById('footer-theme-toggle');
-const themeIcon = document.getElementById('theme-icon');
-const setTheme = (theme) => {
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-    themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
-  } else {
-    document.documentElement.classList.remove('dark');
-    themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
-  }
-  localStorage.setItem('theme', theme);
-};
-const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-setTheme(savedTheme);
-themeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
-footerThemeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
-
-// Ripple Effect
-document.querySelectorAll('.ripple').forEach(button => {
-  button.addEventListener('click', function(e) {
-    const rect = this.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
-    const ripple = document.createElement('span');
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-    ripple.style.position = 'absolute';
-    ripple.style.borderRadius = '50%';
-    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
-    ripple.style.transform = 'scale(0)';
-    ripple.style.animation = 'ripple 0.6s linear';
-    ripple.style.pointerEvents = 'none';
-    this.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
-
-// Modal
-function openModal(title, country, details, price, city, img) {
-  document.getElementById('modal-title').textContent = `${title}, ${country}`;
-  document.getElementById('modal-img').src = img;
-  document.getElementById('modal-img').alt = `Автомобиль ${title} из ${country}`;
-  document.getElementById('modal-details').textContent = details;
-  document.getElementById('modal-price').textContent = price;
-  document.getElementById('modal-city').textContent = city;
-  document.getElementById('modal').classList.remove('hidden');
-}
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-}
-
-// Gallery Filters
-document.getElementById('country-filter').addEventListener('change', filterCars);
-document.getElementById('brand-filter').addEventListener('change', filterCars);
-document.getElementById('modal-country-filter').addEventListener('change', filterCars);
-document.getElementById('modal-brand-filter').addEventListener('change', filterCars);
-function filterCars() {
-  const country = document.getElementById('country-filter').value || document.getElementById('modal-country-filter').value;
-  const brand = document.getElementById('brand-filter').value || document.getElementById('modal-brand-filter').value;
-  const cars = document.querySelectorAll('#car-gallery > div');
-  cars.forEach(car => {
-    const carCountry = car.getAttribute('data-country');
-    const carBrand = car.getAttribute('data-brand');
-    if ((country === 'all' || country === carCountry) && (brand === 'all' || brand === carBrand)) {
-      car.style.display = 'block';
-    } else {
-      car.style.display = 'none';
-    }
-  });
-}
-
-// Calculator
-document.getElementById('calculate').addEventListener('click', () => {
-  const country = document.getElementById('country').value;
-  const carType = document.getElementById('car-type').value;
-  const engineInput = document.getElementById('engine');
-  const yearInput = document.getElementById('year');
-  let engine = engineInput.value.replace(',', '.');
-  let year = parseInt(yearInput.value) || 0;
-  let isValid = true;
-  if (!engine) {
-    engineInput.classList.add('border-red-500');
-    isValid = false;
-  } else {
-    engineInput.classList.remove('border-red-500');
-  }
-  if (!year || year < 2000 || year > 2025) {
-    yearInput.classList.add('border-red-500');
-    isValid = false;
-  } else {
-    yearInput.classList.remove('border-red-500');
-  }
-  if (!isValid) {
-    document.getElementById('calc-result').textContent = 'Пожалуйста, заполните все поля корректно';
-    return;
-  }
-  engine = parseFloat(engine);
-  let baseCost = 1000000;
-  if (country === 'Япония') baseCost += 200000;
-  if (country === 'Германия') baseCost += 500000;
-  if (carType === 'Электрокар') baseCost += 300000;
-  if (carType === 'Гибрид') baseCost += 150000;
-  baseCost += engine * 200000;
-  if (year > 2020) baseCost += (year - 2020) * 100000;
-  document.getElementById('calc-result').textContent = `Ориентировочная стоимость: ${baseCost.toLocaleString()} ₽`;
-  AOS.refresh();
-});
-
-// Accordion
-document.querySelectorAll('.accordion-button').forEach(button => {
-  button.addEventListener('click', () => {
-    const content = button.nextElementSibling;
-    const isOpen = content.classList.contains('open');
-    document.querySelectorAll('.accordion-content').forEach(c => {
-      c.classList.remove('open');
-      c.previousElementSibling.querySelector('svg').style.transform = 'rotate(0deg)';
-    });
-    if (!isOpen) {
-      content.classList.add('open');
-      button.querySelector('svg').style.transform = 'rotate(180deg)';
-    }
-  });
-});
-
-// Question Form
-document.getElementById('submit-question').addEventListener('click', () => {
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const question = document.getElementById('question').value;
-  let isValid = true;
-  if (!name) {
-    document.getElementById('name').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('name').classList.remove('border-red-500');
-  }
-  if (!phone || !/^\+?\d{10,12}$/.test(phone.replace(/\D/g, ''))) {
-    document.getElementById('phone').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('phone').classList.remove('border-red-500');
-  }
-  if (!question) {
-    document.getElementById('question').classList.add('border-red-500');
-    isValid = false;
-  } else {
-    document.getElementById('question').classList.remove('border-red-500');
-  }
-  if (isValid) {
-    const mailtoLink = `mailto:efanov_pavel21@mail.ru?subject=Вопрос от ${name}&body=Имя: ${name}%0D%0AТелефон: ${phone}%0D%0AВопрос: ${question}`;
-    window.location.href = mailtoLink;
-    document.getElementById('form-result').textContent = 'Ваш вопрос отправлен! Я свяжусь с вами в ближайшее время.';
-    document.getElementById('name').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('question').value = '';
-  } else {
-    document.getElementById('form-result').textContent = 'Пожалуйста, заполните все поля корректно';
-  }
-});
-
-// Visit Counter
-function updateVisitCount() {
-  let count = localStorage.getItem('visitCount');
-  if (count === null) {
-    count = 1;
-  } else {
-    count = parseInt(count) + 1;
-  }
-  localStorage.setItem('visitCount', count);
-  document.getElementById('visit-count').textContent = count;
-}
-window.addEventListener('load', updateVisitCount);
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="sjPJwCD3gF-Tg69EymxW7TanX_g9EB7Iwrpj4ESDNuQ" />
+  <meta name="description" content="Автоподбор автомобилей из Японии, Кореи, Германии под ключ в Юге России. Доставка, страховка, проверка, юридическое сопровождение в Ростов-на-Дону, Краснодаре, Ставрополе, Сочи. Павел Ефанов — ваш специалист без посредников.">
+  <meta name="keywords" content="автоподбор, доставка авто, автомобили из-за границы, Япония, Корея, Германия, автоподбор Ростов-на-Дону, автоподбор Краснодар, автоподбор Ставрополь, автоподбор Сочи, автоподбор Краснодарский край, автоподбор Ростовская область, Павел Ефанов">
+  <meta property="og:title" content="Автоподбор из Японии, Кореи, Германии | Павел Ефанов">
+  <meta property="og:description" content="Прозрачный автоподбор под ключ в Юге России. Доставка, страховка, проверка в Ростов-на-Дону, Краснодаре, Ставрополе, Сочи.">
+  <meta property="og:image" content="images/photo_2025-06-21_17-14-02.jpg">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
+  <title>Автоподбор из Японии, Кореи, Германии | Павел Ефанов</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/171/171322.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Используется CDN Tailwind для разработки. Для продакшена установите Tailwind через npm[](https://tailwindcss.com/docs/installation) и используйте CLI или PostCSS для сборки и минификации -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-gray-100 transition-colors duration-300">
+  <noscript>
+    <div class="bg-red-600 text-white text-center p-4">
+      Для работы сайта включите JavaScript в настройках браузера.
+    </div>
+  </noscript>
+  <div id="loader" class="loader">
+    <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+    </svg>
+  </div>
+  <!-- Hero Section with Video -->
+  <section class="relative h-screen overflow-hidden">
+    <div class="video-container">
+      <video muted loop playsinline>
+        <!-- Проверьте, что video-auto-crane.mp4 загружен в папку videos. Если нет, загрузите файл[](https://wdfiles.ru/2a9ax~i?85d5911c0f6b924e9e82136f3266ddb4), переименуйте в video-auto-crane.mp4, обрежьте до 10 секунд и уберите звук, затем используйте: <source src="videos/video-auto-crane.mp4" type="video/mp4"> -->
+        <source src="videos/video-auto-crane.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео. Загрузите обрезанную версию без звука и проверьте путь.
+      </video>
+    </div>
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4">
+      <h1 class="text-4xl md:text-6xl font-bold text-white" data-aos="fade-up">Павел | Автоподбор из-за границы под ключ</h1>
+      <p class="text-xl md:text-2xl text-gray-200 mt-4" data-aos="fade-up" data-aos-delay="100">Страховка, договор, доставка, полное сопровождение</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+        <a href="https://t.me/PavelEfanovAvtoimport" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-blue-600 border border-transparent rounded-xl shadow-sm hover:bg-blue-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+          Telegram
+        </a>
+        <a href="https://wa.me/79996328277" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-green-600 border border-transparent rounded-xl shadow-sm hover:bg-green-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.655 4.398 1.803 6.12l-1.34 4.888 4.97-1.309z" />
+          </svg>
+          WhatsApp
+        </a>
+        <a href="tel:+79996328277" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-gray-800 border border-transparent rounded-xl shadow-sm hover:bg-gray-900 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          Позвонить
+        </a>
+      </div>
+      <button id="theme-toggle" type="button" class="absolute top-4 right-4 p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition">
+        <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+      </button>
+    </div>
+  </section>
+  <!-- About Section -->
+  <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Обо мне</h2>
+    <div class="mt-6 flex flex-col items-center">
+      <img src="images/photo_2025-06-21_17-14-02.jpg" alt="Павел Ефанов" class="w-32 h-32 rounded-full shadow-lg" data-aos="fade-in">
+      <p class="mt-6 text-lg text-center max-w-3xl mx-auto">
+        Меня зовут Павел Ефанов, я специалист по автоподбору автомобилей из-за границы. Работаю без посредников, напрямую с проверенными автосалонами и логистическими компаниями. Моя цель — сделать процесс покупки авто из Японии, Кореи, Китая или Германии прозрачным, безопасным и удобным. Каждый этап сопровождается договором, страховкой и фото/видеоотчётами. Никаких "серых схем" — только честная работа и полная ответственность за результат. Специализируюсь на автоподбор в Ростов-на-Дону, Краснодаре, Ставрополе и Сочи.
+      </p>
+    </div>
+  </section>
+  <!-- Process Section -->
+  <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Этапы работы</h2>
+    <div class="mt-12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="100">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2m8-10a4 4 0 100-8 4 4 0 000 8z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">1. Запрос</h3>
+          <p class="mt-2">Связываетесь со мной через Telegram, WhatsApp или по телефону.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="200">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">2. Подбор</h3>
+          <p class="mt-2">Ищу подходящий автомобиль на сайтах автосалонов в выбранной стране.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="300">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m8-10a4 4 0 100-8 4 4 0 000 8z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">3. Договор</h3>
+          <p class="mt-2">Согласовываем детали и заключаем договор в офисе.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="400">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">4. Оплата</h3>
+          <p class="mt-2">Оплата в 3 этапа: по наличному или безналичному переводу.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="500">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">5. Осмотр</h3>
+          <p class="mt-2">Проверка авто перед покупкой специалистами в стране.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="600">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">6. Доставка</h3>
+          <p class="mt-2">Организация доставки в РФ и растаможка.</p>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg flex items-start" data-aos="fade-up" data-aos-delay="700">
+        <svg class="w-8 h-8 text-blue-600 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <div>
+          <h3 class="text-xl font-semibold">7. Передача</h3>
+          <p class="mt-2">Передача авто, регистрация, полный пакет документов.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Advantages Section -->
+  <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Почему выбирают меня</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="p-6 rounded-2xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+        <h3 class="text-xl font-semibold">Страховка</h3>
+        <p class="mt-2">Автомобиль застрахован на всём пути доставки.</p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-md" data-aos="fade-up" data-aos-delay="200">
+        <h3 class="text-xl font-semibold">Проверка</h3>
+        <p class="mt-2">Полная проверка авто перед покупкой специалистами.</p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-md" data-aos="fade-up" data-aos-delay="300">
+        <h3 class="text-xl font-semibold">Прозрачность</h3>
+        <p class="mt-2">Фото и видеоотчёты на каждом этапе.</p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-md" data-aos="fade-up" data-aos-delay="400">
+        <h3 class="text-xl font-semibold">Сопровождение</h3>
+        <p class="mt-2">Поддержка до полной регистрации авто.</p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-md" data-aos="fade-up" data-aos-delay="500">
+        <h3 class="text-xl font-semibold">Договор</h3>
+        <p class="mt-2">Все условия официально прописаны в договоре.</p>
+      </div>
+    </div>
+  </section>
+  <!-- Carousel Section -->
+  <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Фото выполненных заказов</h2>
+    <div class="mt-12 overflow-hidden">
+      <div id="carousel" class="flex gap-4 animate-scroll">
+        <!-- Динамически заполняется JavaScript -->
+      </div>
+    </div>
+  </section>
+  <!-- Calculator Section -->
+  <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Калькулятор доставки</h2>
+    <div class="mt-12 max-w-lg mx-auto bg-gray-700 p-6 rounded-2xl shadow-lg">
+      <div class="space-y-4">
+        <div>
+          <label for="country" class="block text-sm font-medium text-gray-200">Страна</label>
+          <select id="country" class="w-full p-2 border rounded-lg bg-gray-600 text-white">
+            <option value="Япония">Япония</option>
+            <option value="Корея">Корея</option>
+            <option value="Германия">Германия</option>
+            <option value="Китай">Китай</option>
+          </select>
+        </div>
+        <div>
+          <label for="car-type" class="block text-sm font-medium text-gray-200">Тип авто</label>
+          <select id="car-type" class="w-full p-2 border rounded-lg bg-gray-600 text-white">
+            <option value="Легковой">Легковой</option>
+            <option value="Гибрид">Гибрид</option>
+            <option value="Электрокар">Электрокар</option>
+          </select>
+        </div>
+        <div>
+          <label for="engine" class="block text-sm font-medium text-gray-200">Объём двигателя (л)</label>
+          <input id="engine" type="text" class="w-full p-2 border rounded-lg bg-gray-600 text-white" placeholder="2.5">
+        </div>
+        <div>
+          <label for="year" class="block text-sm font-medium text-gray-200">Год выпуска</label>
+          <input id="year" type="number" min="2000" max="2025" class="w-full p-2 border rounded-lg bg-gray-600 text-white" placeholder="2020">
+        </div>
+        <button type="button" id="calculate" class="ripple w-full bg-blue-600 text-white p-3 rounded-2xl shadow-lg hover:bg-blue-700 transition">Рассчитать</button>
+        <p id="calc-result" class="mt-4 text-center text-gray-200" data-aos="fade-in"></p>
+        <p class="text-sm text-center text-gray-400">*Стоимость ориентировочная, точная цена после согласования</p>
+      </div>
+    </div>
+  </section>
+  <!-- FAQ Section (Accordion) -->
+  <section class="py-16 px-4 max-w-7xl mx-auto" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Частые вопросы</h2>
+    <div class="mt-12 space-y-4">
+      <div class="bg-gray-700 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+        <button class="accordion-button w-full p-6 text-left text-xl font-semibold text-gray-200 flex justify-between items-center">
+          А если машина приедет с дефектами?
+          <svg class="w-6 h-6 transform transition-transform text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-6 text-gray-200">
+          <p>Все автомобили проверяются перед покупкой. Если дефекты обнаружены, мы решаем вопрос с продавцом или страховкой.</p>
+        </div>
+      </div>
+      <div class="bg-gray-700 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+        <button class="accordion-button w-full p-6 text-left text-xl font-semibold text-gray-200 flex justify-between items-center">
+          Как понять, что машина реально проверена?
+          <svg class="w-6 h-6 transform transition-transform text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-6 text-gray-200">
+          <p>Вы получаете фото и видеоотчёты с каждого этапа проверки, включая диагностику на месте.</p>
+        </div>
+      </div>
+      <div class="bg-gray-700 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+        <button class="accordion-button w-full p-6 text-left text-xl font-semibold text-gray-200 flex justify-between items-center">
+          Почему лучше через вас, а не напрямую?
+          <svg class="w-6 h-6 transform transition-transform text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-6 text-gray-200">
+          <p>Я беру на себя все этапы: подбор, проверку, доставку, растаможку и регистрацию, экономя ваше время и нервы.</p>
+        </div>
+      </div>
+      <div class="bg-gray-700 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="400">
+        <button class="accordion-button w-full p-6 text-left text-xl font-semibold text-gray-200 flex justify-between items-center">
+          Что включено в страховку?
+          <svg class="w-6 h-6 transform transition-transform text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-6 text-gray-200">
+          <p>Страховка покрывает риски транспортировки, включая повреждения и утрату груза.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Ask Question Section -->
+  <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Задать вопрос</h2>
+    <div class="mt-12 max-w-lg mx-auto bg-gray-700 p-6 rounded-2xl shadow-lg">
+      <div class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-200">Имя</label>
+          <input id="name" type="text" class="w-full p-2 border rounded-lg bg-gray-600 text-white" placeholder="Ваше имя">
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-200">Телефон</label>
+          <input id="phone" type="tel" class="w-full p-2 border rounded-lg bg-gray-600 text-white" placeholder="+7 (999) 123-45-67">
+        </div>
+        <div>
+          <label for="question" class="block text-sm font-medium text-gray-200">Ваш вопрос</label>
+          <textarea id="question" class="w-full p-2 border rounded-lg bg-gray-600 text-white" rows="4" placeholder="Опишите ваш вопрос"></textarea>
+        </div>
+        <button type="button" id="submit-question" class="ripple w-full bg-blue-600 text-white p-3 rounded-2xl shadow-lg hover:bg-blue-700 transition">Отправить</button>
+        <p id="form-result" class="mt-4 text-center text-gray-200"></p>
+      </div>
+    </div>
+  </section>
+  <!-- Contact Section -->
+  <section class="py-16 px-4 bg-gray-200 dark:bg-gray-800" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">Свяжитесь со мной</h2>
+    <p class="mt-4 text-center max-w-2xl mx-auto text-gray-200">Я всегда на связи через удобный для вас способ</p>
+    <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+      <a href="https://t.me/PavelEfanovAvtoimport" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-blue-600 border border-transparent rounded-xl shadow-sm hover:bg-blue-700 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+        Telegram
+      </a>
+      <a href="https://wa.me/79996328277" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-green-600 border border-transparent rounded-xl shadow-sm hover:bg-green-700 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.655 4.398 1.803 6.12l-1.34 4.888 4.97-1.309z" />
+        </svg>
+        WhatsApp
+      </a>
+      <a href="tel:+79996328277" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-gray-800 border border-transparent rounded-xl shadow-sm hover:bg-gray-900 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+        Позвонить
+      </a>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="py-8 px-4 bg-gray-800 text-white text-center">
+    <p>© Павел Ефанов, 2025. Партнёр логистической компании. Работаю по договору. Вся ответственность застрахована.</p>
+    <div class="mt-4 flex justify-center gap-4">
+      <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="ripple bg-gray-600 px-4 py-2 rounded-2xl shadow-lg hover:bg-gray-700 transition">Наверх</button>
+      <button type="button" id="footer-theme-toggle" class="ripple bg-gray-600 px-4 py-2 rounded-2xl shadow-lg hover:bg-gray-700 transition">Светлая/Тёмная тема</button>
+    </div>
+  </footer>
+  <!-- Visit Counter -->
+  <div id="visit-counter" class="visit-counter">
+    Посетителей: <span id="visit-count">0</span>
+  </div>
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-gray-700 p-6 rounded-2xl shadow-lg max-w-lg w-full">
+      <h3 id="modal-title" class="text-xl font-semibold text-gray-200"></h3>
+      <img id="modal-img" src="" alt="" class="w-full h-48 object-cover rounded-lg mt-4">
+      <p id="modal-details" class="mt-4 text-gray-200"></p>
+      <p id="modal-price" class="mt-2 font-semibold text-gray-200"></p>
+      <p id="modal-city" class="mt-2 text-gray-200"></p>
+      <div class="mt-4 flex gap-4">
+        <select id="modal-country-filter" class="p-2 border rounded-lg bg-gray-600 text-white">
+          <option value="all">Все страны</option>
+          <option value="Япония">Япония</option>
+          <option value="Германия">Германия</option>
+          <option value="Корея">Корея</option>
+        </select>
+        <select id="modal-brand-filter" class="p-2 border rounded-lg bg-gray-600 text-white">
+          <option value="all">Все марки</option>
+          <option value="Toyota">Toyota</option>
+          <option value="BMW">BMW</option>
+          <option value="Hyundai">Hyundai</option>
+        </select>
+      </div>
+      <button type="button" onclick="closeModal()" class="mt-4 w-full bg-blue-600 text-white p-3 rounded-2xl shadow-lg hover:bg-blue-700 transition">Закрыть</button>
+    </div>
+  </div>
+  <!-- Подключение AOS JavaScript -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
