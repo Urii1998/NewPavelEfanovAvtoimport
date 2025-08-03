@@ -1,7 +1,10 @@
-// FOUC Prevention
+// FOUC Prevention и установка тёмной темы по умолчанию
 (function() {
-  const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const theme = 'dark'; // Устанавливаем тёмную тему по умолчанию
   document.documentElement.classList.add(theme);
+  localStorage.setItem('theme', theme);
+  const themeIcon = document.getElementById('theme-icon');
+  themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
 })();
 
 // Initialize AOS
@@ -26,8 +29,6 @@ const setTheme = (theme) => {
   }
   localStorage.setItem('theme', theme);
 };
-const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-setTheme(savedTheme);
 themeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
 footerThemeToggle.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
 
@@ -67,14 +68,14 @@ function closeModal() {
   document.getElementById('modal').classList.add('hidden');
 }
 
-// Gallery Filters
-document.getElementById('country-filter').addEventListener('change', filterCars);
-document.getElementById('brand-filter').addEventListener('change', filterCars);
-document.getElementById('modal-country-filter').addEventListener('change', filterCars);
-document.getElementById('modal-brand-filter').addEventListener('change', filterCars);
+// Gallery Filters (оставляем для совместимости, хотя карусель заменяет)
+document.getElementById('country-filter')?.addEventListener('change', filterCars);
+document.getElementById('brand-filter')?.addEventListener('change', filterCars);
+document.getElementById('modal-country-filter')?.addEventListener('change', filterCars);
+document.getElementById('modal-brand-filter')?.addEventListener('change', filterCars);
 function filterCars() {
-  const country = document.getElementById('country-filter').value || document.getElementById('modal-country-filter').value;
-  const brand = document.getElementById('brand-filter').value || document.getElementById('modal-brand-filter').value;
+  const country = document.getElementById('country-filter')?.value || document.getElementById('modal-country-filter')?.value;
+  const brand = document.getElementById('brand-filter')?.value || document.getElementById('modal-brand-filter')?.value;
   const cars = document.querySelectorAll('#car-gallery > div');
   cars.forEach(car => {
     const carCountry = car.getAttribute('data-country');
@@ -188,3 +189,37 @@ function updateVisitCount() {
   document.getElementById('visit-count').textContent = count;
 }
 window.addEventListener('load', updateVisitCount);
+
+// Карусель
+document.addEventListener('DOMContentLoaded', () => {
+  const carousel = document.getElementById('carousel');
+  const images = [
+    'https://auto.sibnet.ru/upload/car_sale_l/1652106190.7516.jpg', // Toyota Camry
+    'https://avatars.mds.yandex.net/get-autoru-vos/5234661/bd6dfca75d19bc83f5836047774cb5e9/456x342', // BMW X5
+    'https://avatars.mds.yandex.net/get-autoru-vos/2089331/7db611968eeea7a1031fd58b2c36ed53/456x342' // Hyundai Tucson
+  ].filter(img => img !== 'images/photo_2025-06-21_17-14-02.jpg'); // Исключаем фото Павла
+
+  // Заполняем карусель
+  images.forEach(img => {
+    const imgElement = document.createElement('img');
+    imgElement.src = img;
+    imgElement.alt = 'Фото выполненного заказа';
+    carousel.appendChild(imgElement);
+  });
+
+  // Клонируем для бесконечной прокрутки
+  const clone = carousel.cloneNode(true);
+  clone.classList.add('clone');
+  carousel.parentNode.appendChild(clone);
+
+  // Автоматическая прокрутка
+  let scrollPosition = 0;
+  setInterval(() => {
+    scrollPosition -= 1;
+    carousel.style.transform = `translateX(${scrollPosition}px)`;
+    clone.style.transform = `translateX(${scrollPosition}px)`;
+    if (scrollPosition <= -carousel.scrollWidth / 2) {
+      scrollPosition = 0;
+    }
+  }, 20); // Скорость прокрутки
+});
