@@ -19,7 +19,9 @@ window.addEventListener('load', () => {
     video.play().catch(error => {
       console.log('Автозапуск видео заблокирован: ', error);
       // Попытка принудительного запуска через задержку (может не сработать из-за политики)
-      setTimeout(() => video.play(), 500);
+      setTimeout(() => {
+        if (video.paused) video.play(); // Исправление синтаксиса: убрал неправильное присваивание
+      }, 500);
     });
   }
 });
