@@ -190,19 +190,21 @@ function updateVisitCount() {
 }
 window.addEventListener('load', updateVisitCount);
 
-// Карусель
+// Карусель с локальными изображениями
 document.addEventListener('DOMContentLoaded', () => {
   const carousel = document.getElementById('carousel');
-  const images = [
-    'https://auto.sibnet.ru/upload/car_sale_l/1652106190.7516.jpg', // Toyota Camry
-    'https://avatars.mds.yandex.net/get-autoru-vos/5234661/bd6dfca75d19bc83f5836047774cb5e9/456x342', // BMW X5
-    'https://avatars.mds.yandex.net/get-autoru-vos/2089331/7db611968eeea7a1031fd58b2c36ed53/456x342' // Hyundai Tucson
-  ].filter(img => img !== 'images/photo_2025-06-21_17-14-02.jpg'); // Исключаем фото Павла
+  // Список всех изображений в папке images (нужно заменить на реальные имена файлов)
+  const imageFiles = [
+    'toyota-camry.jpg',
+    'bmw-x5.jpg',
+    'hyundai-tucson.jpg'
+    // Добавьте другие имена файлов из папки images, если они есть
+  ].filter(img => img !== 'photo_2025-06-21_17-14-02.jpg'); // Исключаем фото Павла
 
   // Заполняем карусель
-  images.forEach(img => {
+  imageFiles.forEach(img => {
     const imgElement = document.createElement('img');
-    imgElement.src = img;
+    imgElement.src = `images/${img}`;
     imgElement.alt = 'Фото выполненного заказа';
     carousel.appendChild(imgElement);
   });
